@@ -18,7 +18,9 @@ def initialize():
     """Initialize all fixes and workarounds."""
     _check_python_version()
     _configure_syspath()
-    _monkey_patch_fs_functions()
+    # Not working in python3, maybe it's not necessary anymore
+    if sys.version_info[0] == 2:
+        _monkey_patch_fs_functions()
     _monkey_patch_logging_functions()
     _early_basic_logging()
     _register_utf8_codec()
@@ -26,18 +28,21 @@ def initialize():
     _configure_mimetypes()
     _handle_old_tornado()
     _unload_system_dogpile()
-    _use_shutil_custom()
+    # Not working in python3, maybe it's not necessary anymore
+    if sys.version_info[0] == 2:
+        _use_shutil_custom()
     _urllib3_disable_warnings()
     _strptime_workaround()
     _monkey_patch_bdecode()
+    _monkey_patch_cfscrape()
     _configure_guessit()
     _configure_subliminal()
     _configure_knowit()
 
 
 def _check_python_version():
-    if sys.version_info < (2, 7):
-        print('Sorry, requires Python 2.7.x')
+    if sys.version_info < (2, 7) or (3,) < sys.version_info < (3, 5):
+        print('Sorry, requires Python 2.7.x or Python 3.5 and above')
         sys.exit(1)
 
 
@@ -174,6 +179,12 @@ def _monkey_patch_bdecode():
     bencode.bdecode = _patched_bdecode
 
 
+def _monkey_patch_cfscrape():
+    """Monkeypatch `cfscrape.CloudflareScraper.solve_challenge` to solve the challenge without requiring Node.js."""
+    from medusa.init.cfscrape import patch_cfscrape
+    patch_cfscrape()
+
+
 def _configure_guessit():
     """Replace guessit with a pre-configured one, so guessit.guessit() could be called directly in any place."""
     import guessit
@@ -197,7 +208,7 @@ def _configure_subliminal():
 
     # Register
     for name in ('napiprojekt = subliminal.providers.napiprojekt:NapiProjektProvider',
-                 'itasa = {basename}.subtitle_providers.itasa:ItaSAProvider'.format(basename=basename),
+                 'subtitulamos = {basename}.subtitle_providers.subtitulamos:SubtitulamosProvider'.format(basename=basename),
                  'wizdom = {basename}.subtitle_providers.wizdom:WizdomProvider'.format(basename=basename)):
         provider_manager.register(name)
 

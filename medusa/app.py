@@ -2,6 +2,7 @@
 """First module to initialize."""
 from __future__ import unicode_literals
 
+import os
 import random
 import sys
 from threading import Lock
@@ -16,8 +17,7 @@ class MedusaApp(object):
         self.instance = None
 
         # Fixed values
-        self.__title__ = __name__
-        self.SRC_FOLDER = __name__
+        self.SRC_FOLDER = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
         self.LEGACY_SRC_FOLDERS = ('sickbeard', 'sickrage', 'gui')
         self.LIB_FOLDER = 'lib'
         self.LIB2_FOLDER = 'lib2'
@@ -52,6 +52,7 @@ class MedusaApp(object):
         # static configuration
         self.LOCALE = None, None
         self.OS_USER = None
+        self.PYTHON_VERSION = []
         self.OPENSSL_VERSION = None
         self.APP_VERSION = None
         self.MAJOR_DB_VERSION = None
@@ -94,7 +95,7 @@ class MedusaApp(object):
         self.forced_search_queue_scheduler = None
         self.manual_snatch_scheduler = None
         self.proper_finder_scheduler = None
-        self.auto_post_processor_scheduler = None
+        self.post_processor_scheduler = None
         self.subtitles_finder_scheduler = None
         self.trakt_checker_scheduler = None
         self.torrent_checker_scheduler = None
@@ -195,10 +196,10 @@ class MedusaApp(object):
         self.SORT_ARTICLE = False
         self.DEBUG = False
         self.DBDEBUG = False
-        self.DISPLAY_ALL_SEASONS = True
         self.DEFAULT_PAGE = 'home'
         self.SEEDERS_LEECHERS_IN_NOTIFY = True
         self.SHOW_LIST_ORDER = ['Anime', 'Series']
+        self.SHOW_USE_PAGINATION = True
 
         self.USE_LISTVIEW = False
         self.METADATA_KODI = []
@@ -288,7 +289,7 @@ class MedusaApp(object):
         self.TV_DOWNLOAD_DIR = None
         self.UNPACK = False
         self.SKIP_REMOVED_FILES = False
-        self.ALLOWED_EXTENSIONS = {'srt', 'nfo', 'sub', 'idx'}
+        self.ALLOWED_EXTENSIONS = ['srt', 'nfo', 'sub', 'idx']
 
         self.NZBS = False
         self.NZBS_UID = None
@@ -390,6 +391,15 @@ class MedusaApp(object):
         self.TELEGRAM_NOTIFY_ONSUBTITLEDOWNLOAD = False
         self.TELEGRAM_ID = ''
         self.TELEGRAM_APIKEY = ''
+
+        self.USE_DISCORD = False
+        self.DISCORD_NOTIFY_ONSNATCH = False
+        self.DISCORD_NOTIFY_ONDOWNLOAD = False
+        self.DISCORD_NOTIFY_ONSUBTITLEDOWNLOAD = False
+        self.DISCORD_WEBHOOK = None
+        self.DISCORD_NAME = 'pymedusa'
+        self.DISCORD_AVATAR_URL = '{base_url}/images/ico/favicon-144.png'.format(base_url=self.BASE_PYMEDUSA_URL)
+        self.DISCORD_TTS = False
 
         self.USE_PROWL = False
         self.PROWL_NOTIFY_ONSNATCH = False
@@ -572,9 +582,6 @@ class MedusaApp(object):
 
         self.ADDIC7ED_USER = None
         self.ADDIC7ED_PASS = None
-
-        self.ITASA_USER = None
-        self.ITASA_PASS = None
 
         self.LEGENDASTV_USER = None
         self.LEGENDASTV_PASS = None

@@ -14,6 +14,8 @@ from medusa.session import factory, handlers, hooks
 
 import requests
 
+from six.moves import collections_abc
+
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())
 
@@ -161,7 +163,8 @@ class MedusaSafeSession(MedusaSession):
             log.debug(u'Error requesting url {url} Error: {err_msg}', url=url, err_msg=error)
             return resp or error.response
         except Exception as error:
-            if u'ECONNRESET' in error or (hasattr(error, u'errno') and error.errno == errno.ECONNRESET):
+            if ((isinstance(error, collections_abc.Iterable) and u'ECONNRESET' in error) or
+                    (hasattr(error, u'errno') and error.errno == errno.ECONNRESET)):
                 log.warning(
                     u'Connection reset by peer accessing url {url} Error: {err_msg}'.format(url=url, err_msg=error)
                 )

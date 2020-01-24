@@ -139,7 +139,7 @@ window.app = new Vue({
                                     <span class="component-title">Perfect matches</span>
                                     <span class="component-desc">
                                         <input type="checkbox" class="enabler" ${' checked="checked"' if app.SUBTITLES_PERFECT_MATCH else ''} id="subtitles_perfect_match" name="subtitles_perfect_match">
-                                        <p>Only download subtitles that match: release group, video codec, audio codec and resolution</p>
+                                        <p>Only download subtitles that match release group</p>
                                         <p>If disabled you may get out of sync subtitles</p>
                                     </span>
                                 </label>
@@ -268,7 +268,6 @@ window.app = new Vue({
                         <%
                             providerLoginDict = {
                                 'addic7ed': {'user': app.ADDIC7ED_USER, 'pass': app.ADDIC7ED_PASS},
-                                'itasa': {'user': app.ITASA_USER, 'pass': app.ITASA_PASS},
                                 'legendastv': {'user': app.LEGENDASTV_USER, 'pass': app.LEGENDASTV_PASS},
                                 'opensubtitles': {'user': app.OPENSUBTITLES_USER, 'pass': app.OPENSUBTITLES_PASS}}
                         %>

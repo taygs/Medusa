@@ -42,7 +42,7 @@ class Notifier(object):
 
     name_pattern = re.compile(
         r'(?P<show>.+?) - '
-        r'(?P<ep_id>S?\d+[Ex]\d+( - \d{3})?|\d{3}|\d{4}-\d{2}-\d{2}) - '
+        r'(?P<ep_id>S?\d+[Ex]\d+( - \d{3})?|\d{3}|\d{4} \d{2} \d{2}) - '
         r'(?P<episode>.*)'
     )
 
@@ -55,7 +55,7 @@ class Notifier(object):
 
         :return: True for no issue or False if there was an error
         """
-        msg = MIMEText('This is a test message from Medusa. If you\'re reading this, the test succeeded.')
+        msg = MIMEText("This is a test message from Medusa. If you're reading this, the test succeeded.")
         if app.EMAIL_SUBJECT:
             msg['Subject'] = '[TEST] {0}'.format(app.EMAIL_SUBJECT)
         else:
@@ -372,7 +372,7 @@ class Notifier(object):
                 srv.ehlo()
             if user and pwd:
                 log.debug('Sending LOGIN command!')
-                srv.login(user.encode('utf-8'), pwd.encode('utf-8'))
+                srv.login(user, pwd)
 
             srv.sendmail(smtp_from, to, msg.as_string())
             srv.quit()
