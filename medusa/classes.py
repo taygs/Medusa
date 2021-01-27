@@ -23,7 +23,7 @@ from datetime import datetime
 
 from dateutil import parser
 
-from medusa import app
+from medusa import app, ws
 from medusa.common import (
     MULTI_EP_RESULT,
     Quality,
@@ -31,7 +31,6 @@ from medusa.common import (
 )
 from medusa.logger.adapters.style import BraceAdapter
 from medusa.search import SearchType
-
 
 from six import itervalues
 
@@ -204,6 +203,34 @@ class SearchResult(object):
 
         return '<{0}: {1}>'.format(type(self).__name__, result)
 
+    def to_json(self):
+        """Return JSON representation."""
+        return {
+            'identifier': self.identifier,
+            'release': self.name,
+            'season': self.actual_season,
+            'episodes': self.actual_episodes,
+            'seasonPack': len(self.actual_episodes) == 0 or len(self.actual_episodes) > 1,
+            'indexer': self.series.indexer,
+            'seriesId': self.series.series_id,
+            'showSlug': self.series.identifier.slug,
+            'url': self.url,
+            'time': datetime.now().replace(microsecond=0).isoformat(),
+            'quality': self.quality,
+            'releaseGroup': self.release_group,
+            'dateAdded': datetime.now().replace(microsecond=0).isoformat(),
+            'version': self.version,
+            'seeders': self.seeders,
+            'size': self.size,
+            'leechers': self.leechers,
+            'pubdate': self.pubdate.replace(microsecond=0).isoformat() if self.pubdate else None,
+            'provider': {
+                'id': self.provider.get_id(),
+                'name': self.provider.name,
+                'imageName': self.provider.image_name()
+            }
+        }
+
     def file_name(self):
         return u'{0}.{1}'.format(self.episodes[0].pretty_name(), self.result_type)
 
@@ -213,13 +240,18 @@ class SearchResult(object):
             # FIXME: Added repr parsing, as that prevents the logger from throwing an exception.
             # This can happen when there are unicode decoded chars in the release name.
             log.debug('Adding item from search to cache: {release_name!r}', release_name=self.name)
+
+            # Push an update to any open Web UIs through the WebSocket
+            ws.Message('addManualSearchResult', self.to_json()).push()
+
             return cache.add_cache_entry(self, parsed_result=self.parsed_result)
 
     def _create_episode_objects(self):
         """Use this result to create an episode segment out of it."""
         if self.actual_season is not None and self.series:
             if self.actual_episodes:
-                self.episodes = [self.series.get_episode(self.actual_season, ep) for ep in self.actual_episodes]
+                episodes = (self.series.get_episode(self.actual_season, ep) for ep in self.actual_episodes)
+                self.episodes = [ep for ep in episodes if ep is not None]
                 if len(self.actual_episodes) == 1:
                     self.episode_number = self.actual_episodes[0]
                 else:
@@ -257,7 +289,8 @@ class SearchResult(object):
         # Multi or single episode result
         else:
             actual_episodes = [int(ep) for ep in sql_episodes.split('|')]
-            ep_objs = [series_obj.get_episode(actual_season, ep) for ep in actual_episodes]
+            episodes = (series_obj.get_episode(actual_season, ep) for ep in actual_episodes)
+            ep_objs = [ep for ep in episodes if ep is not None]
 
             self.actual_episodes = actual_episodes
             if len(actual_episodes) == 1:
@@ -279,7 +312,7 @@ class SearchResult(object):
         self.leechers = int(cached_result['leechers'])
         self.release_group = cached_result['release_group']
         self.version = int(cached_result['version'])
-        self.pubdate = cached_result['pubdate']
+        self.pubdate = parser.parse(cached_result['pubdate']) if cached_result['pubdate'] else None
         self.proper_tags = cached_result['proper_tags'].split('|') \
             if cached_result['proper_tags'] else []
         self.date = datetime.today()
@@ -336,13 +369,16 @@ class AllShowsListUI(object):  # pylint: disable=too-few-public-methods
                 search_term = self.config['searchterm']
                 # try to pick a show that's in my show list
                 for cur_show in all_series:
-                    if cur_show in search_results:
+                    if [result for result in search_results if str(cur_show['id']) == str(result['id'])]:
                         continue
 
                     if 'seriesname' in cur_show:
                         series_names.append(cur_show['seriesname'])
-                    if 'aliasnames' in cur_show:
-                        series_names.extend(cur_show['aliasnames'].split('|'))
+                    if 'aliases' in cur_show:
+                        series_names.extend(cur_show['aliases'].split('|'))
+
+                    if search_term.isdigit():
+                        series_names.append(search_term)
 
                     for name in series_names:
                         if search_term.lower() in name.lower():

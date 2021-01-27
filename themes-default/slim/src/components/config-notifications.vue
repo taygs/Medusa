@@ -57,7 +57,11 @@
 
                                             <div class="testNotification" id="testKODI-result">Click below to test.</div>
                                             <input  class="btn-medusa" type="button" value="Test KODI" id="testKODI" @click="testKODI">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
 
                                         </div>
 
@@ -100,7 +104,11 @@
                                             <div class="field-pair">
                                                 <div class="testNotification" id="testPMS-result">Click below to test Plex Media Server(s)</div>
                                                 <input class="btn-medusa" type="button" value="Test Plex Media Server" id="testPMS" @click="testPMS">
-                                                <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                                <input type="submit"
+                                                       class="btn-medusa config_submitter"
+                                                       value="Save Changes"
+                                                       :disabled="saving"
+                                                >
                                                 <div class="clear-left">&nbsp;</div>
                                             </div>
 
@@ -135,8 +143,13 @@
                                             <div class="field-pair">
                                                 <div class="testNotification" id="testPHT-result">Click below to test Plex Home Theater(s)</div>
                                                 <input class="btn-medusa" type="button" value="Test Plex Home Theater" id="testPHT" @click="testPHT">
-                                                <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
-                                                <div class="clear-left"><p>Note: some Plex Home Theaters <b class="boldest">do not</b> support notifications e.g. Plexapp for Samsung TVs</p></div>
+
+                                                <input type="submit"
+                                                       class="btn-medusa config_submitter"
+                                                       value="Save Changes"
+                                                       :disabled="saving"
+                                                >
+                                                <div class="clear-left"><p><b>Note:</b> some Plex Home Theaters <b class="boldest">do not</b> support notifications e.g. Plexapp for Samsung TVs</p></div>
                                             </div>
 
                                         </div>
@@ -190,7 +203,11 @@
 
                                             <div class="testNotification" id="testNMJ-result">Click below to test.</div>
                                             <input class="btn-medusa" type="button" value="Test NMJ" id="testNMJ" @click="testNMJ">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
 
                                         </div>
                                     </fieldset>
@@ -243,7 +260,11 @@
                                             <config-textbox v-model="notifiers.nmjv2.database" label="NMJv2 database" id="nmjv2_database" :explanations="['automatically filled via the \'Find Database\' buttons.']" @change="save()" />
                                             <div class="testNotification" id="testNMJv2-result">Click below to test.</div>
                                             <input class="btn-medusa" type="button" value="Test NMJv2" id="testNMJv2" @click="testNMJv2">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -261,7 +282,11 @@
                                         <!-- All form components here for synology indexer -->
                                         <config-toggle-slider v-model="notifiers.synologyIndex.enabled" label="HTTPS" id="use_synoindex" :explanations="['Note: requires Medusa to be running on your Synology NAS.']" @change="save()" />
                                         <div v-show="notifiers.synologyIndex.enabled" id="content_use_synoindex">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -283,7 +308,11 @@
                                             <config-toggle-slider v-model="notifiers.synology.notifyOnSnatch" label="Notify on snatch" id="_notify_onsnatch" :explanations="['send a notification when a download starts?']" @change="save()" />
                                             <config-toggle-slider v-model="notifiers.synology.notifyOnDownload" label="Notify on download" id="synology_notify_ondownload" :explanations="['send a notification when a download finishes?']" @change="save()" />
                                             <config-toggle-slider v-model="notifiers.synology.notifyOnSubtitleDownload" label="Notify on subtitle download" id="synology_notify_onsubtitledownload" :explanations="['send a notification when subtitles are downloaded?']" @change="save()" />
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -303,11 +332,22 @@
                                             <config-textbox v-model="notifiers.pyTivo.host" label="pyTivo IP:Port" id="pytivo_host" :explanations="['host running pyTivo (eg. 192.168.1.1:9032)']" @change="save()" />
                                             <config-textbox v-model="notifiers.pyTivo.shareName" label="pyTivo share name" id="pytivo_name" :explanations="['(Messages \& Settings > Account \& System Information > System Information > DVR name)']" @change="save()" />
                                             <config-textbox v-model="notifiers.pyTivo.name" label="Tivo name" id="pytivo_tivo_name" :explanations="['value used in pyTivo Web Configuration to name the share.']" @change="save()" />
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
                             </div>
+
+                            <br>
+                            <input type="submit"
+                                   class="btn-medusa config_submitter"
+                                   value="Save Changes"
+                                   :disabled="saving"
+                            >
                         </div><!-- #home-theater-nas //-->
 
                         <div id="devices">
@@ -331,7 +371,11 @@
 
                                             <div class="testNotification" id="testGrowl-result">Click below to register and test Growl, this is required for Growl notifications to work.</div>
                                             <input  class="btn-medusa" type="button" value="Register Growl" id="testGrowl" @click="testGrowl">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -390,7 +434,11 @@
 
                                             <div class="testNotification" id="testProwl-result">Click below to test.</div>
                                             <input class="btn-medusa" type="button" value="Test Prowl" id="testProwl" @click="testProwl">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -414,7 +462,11 @@
 
                                             <div class="testNotification" id="testLibnotify-result">Click below to test.</div>
                                             <input  class="btn-medusa" type="button" value="Test Libnotify" id="testLibnotify" @click="testLibnotify">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -466,7 +518,11 @@
 
                                             <div class="testNotification" id="testPushover-result">Click below to test.</div>
                                             <input  class="btn-medusa" type="button" value="Test Pushover" id="testPushover" @click="testPushover">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -491,7 +547,11 @@
 
                                             <div class="testNotification" id="testBoxcar2-result">Click below to test.</div>
                                             <input  class="btn-medusa" type="button" value="Test Boxcar" id="testBoxcar2" @click="testBoxcar2">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -516,7 +576,11 @@
 
                                             <div class="testNotification" id="testPushalot-result">Click below to test.</div>
                                             <input type="button" class="btn-medusa" value="Test Pushalot" id="testPushalot" @click="testPushalot">
-                                            <input type="submit" class="btn-medusa config_submitter" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -551,7 +615,11 @@
 
                                             <div class="testNotification" id="testPushbullet-resultsfsf">{{pushbulletTestInfo}}</div>
                                             <input type="button" class="btn-medusa" value="Test Pushbullet" id="testPushbullet" @click="testPushbulletApi">
-                                            <input type="submit" class="btn-medusa config_submitter" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -577,7 +645,11 @@
 
                                             <div class="testNotification" id="testJoin-result">{{joinTestInfo}}</div>
                                             <input type="button" class="btn-medusa" value="Test Join" id="testJoin" @click="testJoinApi">
-                                            <input type="submit" class="btn-medusa config_submitter" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -603,7 +675,11 @@
 
                                             <div class="testNotification" id="testFreeMobile-result">Click below to test your settings.</div>
                                             <input  class="btn-medusa" type="button" value="Test SMS" id="testFreeMobile" @click="testFreeMobile">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -629,7 +705,11 @@
 
                                             <div class="testNotification" id="testTelegram-result">Click below to test your settings.</div>
                                             <input  class="btn-medusa" type="button" value="Test Telegram" id="testTelegram" @click="testTelegram">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -652,15 +732,26 @@
                                             <config-toggle-slider v-model="notifiers.discord.notifyOnSubtitleDownload" label="Notify on subtitle download" id="discord_notify_onsubtitledownload" :explanations="['send a message when subtitles are downloaded?']" @change="save()" />
                                             <config-textbox v-model="notifiers.discord.webhook" label="Channel webhook" id="discord_webhook" :explanations="['Add a webhook to a channel, use the returned url here']" @change="save()" />
                                             <config-toggle-slider v-model="notifiers.discord.tts" label="Text to speech" id="discord_tts" :explanations="['Use discord text to speech feature']" @change="save()" />
+                                            <config-textbox v-model="notifiers.discord.name" label="Bot username" id="discord_name" :explanations="['Create a username for the Discord Bot to use']" @change="save()" />
 
                                             <div class="testNotification" id="testDiscord-result">Click below to test your settings.</div>
                                             <input  class="btn-medusa" type="button" value="Test Discord" id="testDiscord" @click="testDiscord">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
                             </div>
 
+                            <br>
+                            <input type="submit"
+                                   class="btn-medusa config_submitter"
+                                   value="Save Changes"
+                                   :disabled="saving"
+                            >
                         </div><!-- #devices //-->
 
                         <div id="social">
@@ -695,13 +786,18 @@
 
                                             <div class="testNotification" id="testTwitter-result" v-html="twitterTestInfo" />
                                             <input  class="btn-medusa" type="button" value="Test Twitter" id="testTwitter" @click="twitterTest">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
                             </div>
 
                             <div class="row component-group">
+                                <a href="#trakt" />
                                 <div class="component-group-desc col-xs-12 col-md-2">
                                     <span class="icon-notifiers-trakt" title="Trakt" />
                                     <h3><app-link href="https://trakt.tv/">Trakt</app-link></h3>
@@ -713,13 +809,11 @@
                                         <config-toggle-slider v-model="notifiers.trakt.enabled" label="Enable" id="use_trakt" :explanations="['Send Trakt.tv notifications?']" @change="save()" />
                                         <div v-show="notifiers.trakt.enabled" id="content-use-trakt-client"> <!-- show based on notifiers.trakt.enabled -->
 
-                                            <config-textbox v-model="notifiers.trakt.username" label="Username" id="trakt_username" :explanations="['username of your Trakt account.']" @change="save()" />
-
-                                            <config-template label-for="trakt_pin" label="Trakt PIN">
-                                                <input type="text" name="trakt_pin" id="trakt_pin" value="" style="display: inline" class="form-control input-sm max-input250" :disabled="notifiers.trakt.accessToken">
-                                                <input type="button" class="btn-medusa" :value="traktNewTokenMessage" id="TraktGetPin" @click="TraktGetPin">
-                                                <input type="button" class="btn-medusa hide" value="Authorize Medusa" id="authTrakt" @click="authTrakt">
-                                                <p>PIN code to authorize Medusa to access Trakt on your behalf.</p>
+                                            <config-template label-for="trakt_request_auth" label="">
+                                                <input type="button" class="btn-medusa" value="Connect to your trakt account" id="Trakt" @click="TraktRequestDeviceCode">
+                                                <span style="display: inline" v-if="traktRequestSend && traktUserCode">Use this code in the popup: {{traktUserCode}}</span>
+                                                <p v-if="traktRequestSend && traktUserCode && traktRequestMessage">Trakt request status: {{traktRequestMessage}}</p>
+                                                <p v-if="traktRequestAuthenticated && traktRequestMessage">{{traktRequestMessage}}</p>
                                             </config-template>
 
                                             <config-textbox-number v-model="notifiers.trakt.timeout" label="API Timeout" id="trakt_timeout" :explanations="['Seconds to wait for Trakt API to respond. (Use 0 to wait forever)']" />
@@ -738,8 +832,7 @@
                                                                        'Kodi detects that the episode was deleted and removes from collection which causes Medusa to re-add it. This causes a loop between Medusa and Kodi adding and deleting the episode.']"
                                                                   @change="save()" />
                                             <div v-show="notifiers.trakt.sync" id="content-use-trakt-client">
-                                                <config-toggle-slider v-model="notifiers.trakt.removeWatchlist" label="Remove Episodes From Collection" id="trakt_remove_watchlist" :explanations="['Remove an Episode from your Trakt Collection if it is not in your Medusa Library.',
-                                                                                                                                                                                                    'Note:Don\'t enable this setting if you use the Trakt addon for Kodi or any other script that syncs your library.']" @change="save()" />
+                                                <config-toggle-slider v-model="notifiers.trakt.removeWatchlist" label="Remove Episodes From Collection" id="trakt_remove_watchlist" :explanations="['Remove an Episode from your Trakt Collection if it is not in your Medusa Library.',                                                                                                                                                                                                    'Note:Don\'t enable this setting if you use the Trakt addon for Kodi or any other script that syncs your library.']" @change="save()" />
                                             </div>
 
                                             <config-toggle-slider v-model="notifiers.trakt.syncWatchlist" label="Sync watchlist" id="trakt_sync_watchlist" :explanations="
@@ -769,7 +862,11 @@
                                             <input type="button" class="btn-medusa" value="Test Trakt" id="testTrakt" @click="testTrakt">
                                             <input type="button" class="btn-medusa" value="Force Sync" id="forceSync" @click="traktForceSync">
                                             <input type="hidden" id="trakt_pin_url" :value="notifiers.trakt.pinUrl">
-                                            <input type="submit" class="btn-medusa config_submitter" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -824,7 +921,11 @@
 
                                             <div class="testNotification" id="testEmail-result">Click below to test.</div><!-- #testEmail-result //-->
                                             <input class="btn-medusa" type="button" value="Test Email" id="testEmail" @click="testEmail">
-                                            <input class="btn-medusa config_submitter" type="submit" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
@@ -851,16 +952,23 @@
 
                                             <div class="testNotification" id="testSlack-result">Click below to test your settings.</div>
                                             <input  class="btn-medusa" type="button" value="Test Slack" id="testSlack" @click="testSlack">
-                                            <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
+                                            <input type="submit"
+                                                   class="btn-medusa config_submitter"
+                                                   value="Save Changes"
+                                                   :disabled="saving"
+                                            >
                                         </div>
                                     </fieldset>
                                 </div>
                             </div>
 
+                            <br>
+                            <input type="submit"
+                                   class="btn-medusa config_submitter"
+                                   value="Save Changes"
+                                   :disabled="saving"
+                            >
                         </div><!-- #social //-->
-                        <br>
-                        <input type="submit" class="config_submitter btn-medusa" value="Save Changes">
-                        <br>
                     </div><!-- #config-components //-->
                 </form><!-- #configForm //-->
             </div><!-- #config-content //-->
@@ -939,6 +1047,10 @@ export default {
             pushbulletDeviceOptions: [
                 { text: 'All devices', value: '' }
             ],
+            traktRequestSend: false,
+            traktRequestAuthenticated: false,
+            traktUserCode: '',
+            traktRequestMessage: '',
             traktMethodOptions: [
                 { text: 'Skip all', value: 0 },
                 { text: 'Download pilot only', value: 1 },
@@ -949,20 +1061,16 @@ export default {
             twitterTestInfo: 'Click below to test.',
             twitterKey: '',
             emailSelectedShow: null,
-            emailSelectedShowAdresses: []
+            emailSelectedShowAdresses: [],
+            saving: false
         };
     },
-    // TODO: Replace with Object spread (`...mapState`)
     computed: {
-        ...mapState([
-            'config',
-            'indexers',
-            'notifiers'
-        ]),
-        traktNewTokenMessage() {
-            const { accessToken } = this.notifiers.trakt;
-            return 'Get ' + accessToken ? 'New ' : ' Trakt PIN';
-        },
+        ...mapState({
+            config: state => state.config.general,
+            indexers: state => state.config.indexers,
+            notifiers: state => state.config.notifiers
+        }),
         traktIndexersOptions() {
             const { indexers } = this;
             const { traktIndexers } = indexers.main;
@@ -973,11 +1081,7 @@ export default {
             });
         }
     },
-    created() {
-        const { getShows } = this;
-        // Needed for the show-selector component
-        getShows();
-    },
+
     beforeMount() {
         // Wait for the next tick, so the component is rendered
         this.$nextTick(() => {
@@ -1097,7 +1201,7 @@ export default {
             }
         },
         async twitterStep1() {
-            this.twitterTestInfo = MEDUSA.config.loading;
+            this.twitterTestInfo = MEDUSA.config.layout.loading;
 
             const response = await apiRoute('home/twitterStep1');
             const { data } = response;
@@ -1160,7 +1264,7 @@ export default {
             }
             $('#growl_host').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testGrowl-result').html(MEDUSA.config.loading);
+            $('#testGrowl-result').html(MEDUSA.config.layout.loading);
             $.get('home/testGrowl', {
                 host: growl.host,
                 password: growl.password
@@ -1180,7 +1284,7 @@ export default {
             }
             $('#prowl_api').find('input').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testProwl-result').html(MEDUSA.config.loading);
+            $('#testProwl-result').html(MEDUSA.config.layout.loading);
             $.get('home/testProwl', {
                 prowl_api: prowl.api, // eslint-disable-line camelcase
                 prowl_priority: prowl.priority // eslint-disable-line camelcase
@@ -1191,9 +1295,8 @@ export default {
         },
         testKODI() {
             const kodi = {};
-            const kodiHosts = $.map($('#kodi_host').find('input'), value => {
-                return value.value;
-            }).filter(item => item !== '');
+            const kodiHostInput = $('#kodi_host').find('input');
+            const kodiHosts = kodiHostInput.toArray().map(value => value.value).filter(item => item !== '');
             kodi.host = kodiHosts.join(',');
             kodi.username = $.trim($('#kodi_username').val());
             kodi.password = $.trim($('#kodi_password').val());
@@ -1204,7 +1307,7 @@ export default {
             }
             $('#kodi_host').find('input').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testKODI-result').html(MEDUSA.config.loading);
+            $('#testKODI-result').html(MEDUSA.config.layout.loading);
             $.get('home/testKODI', {
                 host: kodi.host,
                 username: kodi.username,
@@ -1217,9 +1320,8 @@ export default {
         testPHT() {
             const plex = {};
             plex.client = {};
-            const plexHosts = $.map($('#plex_client_host').find('input'), value => {
-                return value.value;
-            }).filter(item => item !== '');
+            const plexHostsInput = $('#plex_client_host').find('input');
+            const plexHosts = plexHostsInput.toArray().map(value => value.value).filter(item => item !== '');
             plex.client.host = plexHosts.join(',');
             plex.client.username = $.trim($('#plex_client_username').val());
             plex.client.password = $.trim($('#plex_client_password').val());
@@ -1230,7 +1332,7 @@ export default {
             }
             $('#plex_client_host').find('input').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testPHT-result').html(MEDUSA.config.loading);
+            $('#testPHT-result').html(MEDUSA.config.layout.loading);
             $.get('home/testPHT', {
                 host: plex.client.host,
                 username: plex.client.username,
@@ -1243,9 +1345,8 @@ export default {
         testPMS() {
             const plex = {};
             plex.server = {};
-            const plexHosts = $.map($('#plex_server_host').find('input'), value => {
-                return value.value;
-            }).filter(item => item !== '');
+            const plexHostsInput = $('#plex_server_host').find('input');
+            const plexHosts = plexHostsInput.toArray().map(value => value.value).filter(item => item !== '');
             plex.server.host = plexHosts.join(',');
 
             plex.server.username = $.trim($('#plex_server_username').val());
@@ -1258,7 +1359,7 @@ export default {
             }
             $('#plex_server_host').find('input').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testPMS-result').html(MEDUSA.config.loading);
+            $('#testPMS-result').html(MEDUSA.config.layout.loading);
             $.get('home/testPMS', {
                 host: plex.server.host,
                 username: plex.server.username,
@@ -1281,7 +1382,7 @@ export default {
             }
             $('#emby_host,#emby_apikey').children('input').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testEMBY-result').html(MEDUSA.config.loading);
+            $('#testEMBY-result').html(MEDUSA.config.layout.loading);
             $.get('home/testEMBY', {
                 host: emby.host,
                 emby_apikey: emby.apikey // eslint-disable-line camelcase
@@ -1300,7 +1401,7 @@ export default {
             }
             $('#boxcar2_accesstoken').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testBoxcar2-result').html(MEDUSA.config.loading);
+            $('#testBoxcar2-result').html(MEDUSA.config.layout.loading);
             $.get('home/testBoxcar2', {
                 accesstoken: boxcar2.accesstoken
             }).done(data => {
@@ -1320,7 +1421,7 @@ export default {
             }
             $('#pushover_userkey,#pushover_apikey').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testPushover-result').html(MEDUSA.config.loading);
+            $('#testPushover-result').html(MEDUSA.config.layout.loading);
             $.get('home/testPushover', {
                 userKey: pushover.userkey,
                 apiKey: pushover.apikey
@@ -1330,7 +1431,7 @@ export default {
             });
         },
         testLibnotify() {
-            $('#testLibnotify-result').html(MEDUSA.config.loading);
+            $('#testLibnotify-result').html(MEDUSA.config.layout.loading);
             $.get('home/testLibnotify', data => {
                 $('#testLibnotify-result').html(data);
             });
@@ -1339,7 +1440,7 @@ export default {
             const nmj = {};
             nmj.host = $('#nmj_host').val();
             if (nmj.host) {
-                $('#testNMJ-result').html(MEDUSA.config.loading);
+                $('#testNMJ-result').html(MEDUSA.config.layout.loading);
                 $.get('home/settingsNMJ', {
                     host: nmj.host
                 }, data => {
@@ -1376,7 +1477,7 @@ export default {
             if (nmj.host) {
                 $('#nmj_host').removeClass('warning');
                 $(this).prop('disabled', true);
-                $('#testNMJ-result').html(MEDUSA.config.loading);
+                $('#testNMJ-result').html(MEDUSA.config.layout.loading);
                 $.get('home/testNMJ', {
                     host: nmj.host,
                     database: nmj.database,
@@ -1394,7 +1495,7 @@ export default {
             const nmjv2 = {};
             nmjv2.host = $('#nmjv2_host').val();
             if (nmjv2.host) {
-                $('#testNMJv2-result').html(MEDUSA.config.loading);
+                $('#testNMJv2-result').html(MEDUSA.config.layout.loading);
                 nmjv2.dbloc = '';
                 const radios = document.getElementsByName('nmjv2_dbloc');
                 for (let i = 0, len = radios.length; i < len; i++) {
@@ -1434,7 +1535,7 @@ export default {
             if (nmjv2.host) {
                 $('#nmjv2_host').removeClass('warning');
                 $(this).prop('disabled', true);
-                $('#testNMJv2-result').html(MEDUSA.config.loading);
+                $('#testNMJv2-result').html(MEDUSA.config.layout.loading);
                 $.get('home/testNMJv2', {
                     host: nmjv2.host
                 }).done(data => {
@@ -1466,7 +1567,7 @@ export default {
             }
             $('#freemobile_id,#freemobile_apikey').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testFreeMobile-result').html(MEDUSA.config.loading);
+            $('#testFreeMobile-result').html(MEDUSA.config.layout.loading);
             $.get('home/testFreeMobile', {
                 freemobile_id: freemobile.id, // eslint-disable-line camelcase
                 freemobile_apikey: freemobile.apikey // eslint-disable-line camelcase
@@ -1487,7 +1588,7 @@ export default {
             }
             $('#telegram_id,#telegram_apikey').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testTelegram-result').html(MEDUSA.config.loading);
+            $('#testTelegram-result').html(MEDUSA.config.layout.loading);
             $.get('home/testTelegram', {
                 telegram_id: telegram.id, // eslint-disable-line camelcase
                 telegram_apikey: telegram.apikey // eslint-disable-line camelcase
@@ -1506,7 +1607,7 @@ export default {
             }
             $('#discord_id,#discord_apikey').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testDiscord-result').html(MEDUSA.config.loading);
+            $('#testDiscord-result').html(MEDUSA.config.layout.loading);
             $.get('home/testDiscord', {
                 discord_webhook: notifiers.discord.webhook, // eslint-disable-line camelcase
                 discord_tts: notifiers.discord.tts // eslint-disable-line camelcase
@@ -1526,7 +1627,7 @@ export default {
             }
             $('#slack_webhook').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testSlack-result').html(MEDUSA.config.loading);
+            $('#testSlack-result').html(MEDUSA.config.layout.loading);
             $.get('home/testslack', {
                 slack_webhook: slack.webhook // eslint-disable-line camelcase
             }).done(data => {
@@ -1534,54 +1635,60 @@ export default {
                 $('#testSlack').prop('disabled', false);
             });
         },
-        TraktGetPin() {
-            window.open($('#trakt_pin_url').val(), 'popUp', 'toolbar=no, scrollbars=no, resizable=no, top=200, left=200, width=650, height=550');
-            $('#trakt_pin').prop('disabled', false);
-        },
-        authTrakt() {
-            const trakt = {};
-            trakt.pin = $('#trakt_pin').val();
-            if (trakt.pin.length !== 0) {
-                $.get('home/getTraktToken', {
-                    trakt_pin: trakt.pin // eslint-disable-line camelcase
-                }).done(data => {
-                    $('#testTrakt-result').html(data);
-                    $('#authTrakt').addClass('hide');
-                    $('#trakt_pin').prop('disabled', true);
-                    $('#trakt_pin').val('');
-                    $('#TraktGetPin').removeClass('hide');
-                });
+        async TraktRequestDeviceCode() {
+            this.traktUserCode = '';
+            this.traktRequestAuthenticated = false;
+            const response = await apiRoute('home/requestTraktDeviceCodeOauth');
+            if (response.data) {
+                this.traktVerificationUrl = response.data.verification_url;
+                window.open(response.data.verification_url, 'popUp', 'toolbar=no, scrollbars=no, resizable=no, top=200, left=200, width=650, height=550');
+                this.traktRequestSend = true;
+                this.traktUserCode = response.data.user_code;
+                this.checkTraktAuthenticated();
             }
+        },
+        checkTraktAuthenticated() {
+            let counter = 0;
+            const i = setInterval(() => {
+                apiRoute('home/checkTrakTokenOauth')
+                    .then(response => {
+                        if (response.data) {
+                            this.traktRequestMessage = response.data.result;
+                            if (!response.data.error) {
+                                clearInterval(i);
+                                this.traktRequestAuthenticated = true;
+                                this.traktUserCode = '';
+                            }
+                        }
+                    });
+
+                counter++;
+                if (counter === 12) {
+                    clearInterval(i);
+                    this.traktRequestAuthenticated = false;
+                    this.traktUserCode = '';
+                }
+            }, 5000);
         },
         testTrakt() {
             const trakt = {};
-            trakt.username = $.trim($('#trakt_username').val());
             trakt.trendingBlacklist = $.trim($('#trakt_blacklist_name').val());
-            if (!trakt.username) {
-                $('#testTrakt-result').html('Please fill out the necessary fields above.');
-                $('#trakt_username').addRemoveWarningClass(trakt.username);
-                return;
-            }
 
             if (/\s/g.test(trakt.trendingBlacklist)) {
                 $('#testTrakt-result').html('Check blacklist name; the value needs to be a trakt slug');
                 $('#trakt_blacklist_name').addClass('warning');
                 return;
             }
-            $('#trakt_username').removeClass('warning');
             $('#trakt_blacklist_name').removeClass('warning');
-            $(this).prop('disabled', true);
-            $('#testTrakt-result').html(MEDUSA.config.loading);
-            $.get('home/testTrakt', {
-                username: trakt.username,
-                blacklist_name: trakt.trendingBlacklist // eslint-disable-line camelcase
-            }).done(data => {
-                $('#testTrakt-result').html(data);
-                $('#testTrakt').prop('disabled', false);
-            });
+            $('#testTrakt-result').html(MEDUSA.config.layout.loading);
+            apiRoute(`home/testTrakt?blacklist_name=${trakt.trendingBlacklist}`)
+                .then(result => {
+                    $('#testTrakt-result').html(result.data);
+                    $('#testTrakt').prop('disabled', false);
+                });
         },
         traktForceSync() {
-            $('#testTrakt-result').html(MEDUSA.config.loading);
+            $('#testTrakt-result').html(MEDUSA.config.layout.loading);
             $.getJSON('home/forceTraktSync', data => {
                 $('#testTrakt-result').html(data.result);
             });
@@ -1589,7 +1696,7 @@ export default {
         testEmail() {
             let to = '';
             const status = $('#testEmail-result');
-            status.html(MEDUSA.config.loading);
+            status.html(MEDUSA.config.layout.loading);
             let host = $('#email_host').val();
             host = host.length > 0 ? host : null;
             let port = $('#email_port').val();
@@ -1605,7 +1712,7 @@ export default {
             }
             if (port === null) {
                 err += '<li style="color: red;">You must specify an SMTP port!</li>';
-            } else if (port.match(/^\d+$/) === null || parseInt(port, 10) > 65535) {
+            } else if (port.match(/^\d+$/) === null || Number.parseInt(port, 10) > 65535) {
                 err += '<li style="color: red;">SMTP port must be between 0 and 65535!</li>';
             }
             if (err.length > 0) {
@@ -1640,7 +1747,7 @@ export default {
             }
             $('#pushalot_authorizationtoken').removeClass('warning');
             $(this).prop('disabled', true);
-            $('#testPushalot-result').html(MEDUSA.config.loading);
+            $('#testPushalot-result').html(MEDUSA.config.layout.loading);
             $.get('home/testPushalot', {
                 authorizationToken: pushalot.authToken
             }).done(data => {

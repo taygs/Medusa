@@ -1,22 +1,280 @@
+## 0.5.5 (25-01-2021)
+
+#### Fixes
+ - Fix auto update causing malformed checkouts ([9088](https://github.com/pymedusa/Medusa/pull/9088))
+ - Fix trakt recommended shows causing an error when selecting season premiers or new shows ([9080](https://github.com/pymedusa/Medusa/pull/9080))
+ - Prevent exception when auth to medusa using basic authentication ([9100](https://github.com/pymedusa/Medusa/pull/9100))
+
+-----
+
+## 0.5.4 (20-01-2021)
+
+#### Fixes
+ - Fix trakt authentication lost on restart ([9018](https://github.com/pymedusa/Medusa/pull/9018))
+ - Fix issue with trying to mass update a show with scene exceptions ([9067](https://github.com/pymedusa/Medusa/pull/9067))
+ - Fix a number of exceptions caused by new trakt implementation ([9038](https://github.com/pymedusa/Medusa/pull/9038))
+ - Fix black/white list not saved, when trying to add an exception when adding the show ([9047](https://github.com/pymedusa/Medusa/pull/9047))
+ - Avoid exception for shows that don't have show_lists in DB ([9050](https://github.com/pymedusa/Medusa/pull/9050))
+ - Fix version check scheduler running twice ([9057](https://github.com/pymedusa/Medusa/pull/9057))
+ - Fix show-list (table layout) Active column Filter is linked to Xem column Filter ([9066](https://github.com/pymedusa/Medusa/pull/9066))
+
+-----
+
+## 0.5.3 (12-01-2021)
+
+#### Fixes
+- Fix trakt sync exception ([8994](https://github.com/pymedusa/Medusa/pull/8994))
+
+-----
+
+## 0.5.2 (10-01-2021)
+
+#### Improvements
+- Replace trakt lib with PyTrakt (and switch to OAuth device authentication). ([8916](https://github.com/pymedusa/Medusa/pull/8916))
+- Make all thread schedulers hot-reload when enabled/disabled. ([8948](https://github.com/pymedusa/Medusa/pull/8948))
+- Add an option to create .magnet files when a torrent can't be downloaded from a magnet URI, using one of the magnet cache registries. ([8955](https://github.com/pymedusa/Medusa/pull/8955))
+
+#### Fixes
+- Fix setting default episode status (after) when adding a new show. ([8918](https://github.com/pymedusa/Medusa/pull/8918))
+- Fix provider anidex. Add a bypass to its DDOS-Guard protection. ([8955](https://github.com/pymedusa/Medusa/pull/8955))
+
+-----
+
+## 0.5.1 (16-12-2020)
+
+#### Improvements
+- Add Processing failed for ... to custom logs
+- Add and convert some network logos
+
+#### Fixes
+- Fix startup with git install without valid git
+- Fix rare ADBA exception
+- Fix rare anime parsing issue
+- Fix exception when torrent clients don't respond
+- Fix backlog search on new show add & wanted switch for old episodes
+- Fix issue with broken encrypted passwords
+
+-----
+
+## 0.5.0 (30-11-2020)
+
+First Python 3.x version
+
+#### New Features
+- Separate proxy configs for Providers, Indexers, CLients (torrent/nzb) and others ([8605](https://github.com/pymedusa/Medusa/pull/8605))
+
+#### Improvements
+- Add absolute numbering to indexers tvmaze and tmdb, making them suitable for anime ([8777](https://github.com/pymedusa/Medusa/pull/8777))
+
+#### Fixes
+- Provider Nyaa.si: Correct the category that is used for anime searches ([8777](https://github.com/pymedusa/Medusa/pull/8777))
+- Indexer TMDB: Fix adding show using an alternative language ([8784](https://github.com/pymedusa/Medusa/pull/8784))
+
+-----
+
+## 0.4.6 (25-11-2020)
+
+Last version that runs on Python 2.7!
+
+#### Improvements
+- Vueified add existing shows ([8448](https://github.com/pymedusa/Medusa/pull/8448))
+  - Get real time progress update on the shows adding
+  - Add shows automatically when metadata is available
+  - Preset show options
+- Vueified add show ([8448](https://github.com/pymedusa/Medusa/pull/8448))
+  - No more page redirects when you add a show that already exists
+  - Select show list while adding show
+  - Map show lists to anime, when configured in config -> anime
+- Refactored scene exception methods ([8753](https://github.com/pymedusa/Medusa/pull/8753))
+
+#### Fixes
+- Fixed provider TVChaosUK ([8737](https://github.com/pymedusa/Medusa/pull/8737))
+
+-----
+
+## 0.4.5 (2020-11-13)
+
+#### Fixes
+- Updated EZTV provider URL
+- Fixed email and prowl notifications
+
+-----
+
+## 0.4.4 (2020-11-04)
+
+#### Improvements
+- Replace unrar2 with rarfile
+- Add EpisodeUpdater to scheduler
+- Don't strip channel names so they are matched correctly
+- Avoid exception when headers have no host
+
+#### Fixes
+- Fix notify lists for prowl and email ([8535](https://github.com/pymedusa/Medusa/pull/8535))
+- Fix shows sorting by article sort using (the, a, an) was reversed in config-general ([8532](https://github.com/pymedusa/Medusa/pull/8532))
+- Fix sending torrents to qBittorrent api version > 2.0.0 ([8528](https://github.com/pymedusa/Medusa/pull/8528))
+- Fix decoding torrent hash from magnet links ([8563](https://github.com/pymedusa/Medusa/pull/8563))
+- Fix provider AnimeBytes ([8609](https://github.com/pymedusa/Medusa/pull/8609))
+- Fix provider Speedcd ([8609](https://github.com/pymedusa/Medusa/pull/8609))
+- Fix season pack search, results not shown for multi-episode results ([8609](https://github.com/pymedusa/Medusa/pull/8609))
+- Fix scene exceptions with year not being used
+- Fix IPTorrents layout change
+- Use b64decode instead of deprecated decodestring for basic auth
+
+-----
+
+## 0.4.3 (2020-09-08)
+
+#### Improvements
+- Updated all frontend libraries and dependencies
+
+#### Fixes
+- Fix no max season error when a show is incomplete ([8460](https://github.com/pymedusa/Medusa/pull/8460))
+- Fix start error on some Python 2.7 builds
+
+-----
+
+## 0.4.2 (2020-09-06)
+
+#### Improvements
+- Added new page "restart", for restarting and shutting down Medusa ([8399](https://github.com/pymedusa/Medusa/pull/8399))
+- Added new page "update", for updating Medusa to a new version ([8437](https://github.com/pymedusa/Medusa/pull/8437))
+
+#### Fixes
+- Fix show-selector using the show lists ([8426](https://github.com/pymedusa/Medusa/pull/8426))
+- Fix home poster layout. Re-add the search by show title ([8415](https://github.com/pymedusa/Medusa/pull/8415))
+- Fix backlog search ignoring cached search results ([8395](https://github.com/pymedusa/Medusa/pull/8395))
+- Fix guessit parsing numbered episode titles as multi season ([8413](https://github.com/pymedusa/Medusa/pull/8413))
+- Fix History page showing black text (on black) when using dark theme ([8375](https://github.com/pymedusa/Medusa/pull/8375))
+
+-----
+
+## 0.4.1 (2020-08-18)
+
+#### Fixes
+- Fixed show titles displayed in white text on the schedule page ([#8338](https://github.com/pymedusa/Medusa/pull/8338))
+- Fixed Series show list title shown, also when it's the only show list used ([#8338](https://github.com/pymedusa/Medusa/pull/8338))
+- Fixed home table layouts Downloads sorting ([#8338](https://github.com/pymedusa/Medusa/pull/8338))
+- Fixed home table layouts previous and next episode sorting ([#8337](https://github.com/pymedusa/Medusa/pull/8337))
+- Fixed show's show lists not stored after restart ([#8337](https://github.com/pymedusa/Medusa/pull/8337))
+
+-----
+
+## 0.4.0 (2020-08-15)
+
+#### New Features
+- Added Search shows by id ([#8308](https://github.com/pymedusa/Medusa/pull/8308))
+- Added UI option to create your own show list categories ([#8308](https://github.com/pymedusa/Medusa/pull/8308))
+- Add the ability to modify the Discord bot username ([#8148](https://github.com/pymedusa/Medusa/pull/8148))
+
+#### Improvements
+- Vueified Home page (Poster, small poster, banner, simple layouts) ([5345](https://github.com/pymedusa/Medusa/pull/5345))
+- Vueified Snatch Selection page ([7345](https://github.com/pymedusa/Medusa/pull/7345))
+- Add the save path option for qBittorrent version > 3.2 ([8304](https://github.com/pymedusa/Medusa/pull/8304))
+- show-header: mark indexer used for adding show with star ([8286](https://github.com/pymedusa/Medusa/pull/8286))
+- Utilize season search results from cache ([8281](https://github.com/pymedusa/Medusa/pull/8281))
+- Improve season scene name handling for non-anime shows ([8155](https://github.com/pymedusa/Medusa/pull/8155))
+
+#### Fixes
+- Disable forcing of the scene option when adding shows ([8316](https://github.com/pymedusa/Medusa/pull/8316))
+- Fix associated files matching more files than wanted ([8152](https://github.com/pymedusa/Medusa/pull/8152))
+
+-----
+
+## 0.3.16 (2020-04-27)
+
+#### New Features
+- Added Keep link as post processing method ([#7986](https://github.com/pymedusa/Medusa/pull/7986))
+- Added EZTV as torrent provider ([#8004](https://github.com/pymedusa/Medusa/pull/8004))
+
+#### Fixes
+- Fixed PrivateHD and CinemaZ provider login ([#7991](https://github.com/pymedusa/Medusa/pull/7991))
+- Fixed occasional subliminal exception ([#7989](https://github.com/pymedusa/Medusa/pull/7989))
+
+-----
+
+## 0.3.15 (2020-04-13)
+
+#### Improvements
+- Add show names with dashes to guessit expected titles ([#7918](https://github.com/pymedusa/Medusa/pull/7918))
+- Provider YggTorrents: Add 'saison' as a season pack search keyword ([#7920](https://github.com/pymedusa/Medusa/pull/7920))
+- Show Snatched or Downloaded release name when manually picking a subtitle ([#7955](https://github.com/pymedusa/Medusa/pull/7955))
+
+#### Fixes
+- Fixed root dirs not always shown on Home page ([#7921](https://github.com/pymedusa/Medusa/pull/7921))
+- Fixed starting Medusa failed running Python 3.8 on Windows ([#7940](https://github.com/pymedusa/Medusa/pull/7940))
+- Fixed Speed.cd provider login ([#7941](https://github.com/pymedusa/Medusa/pull/7941))
+- Fixed [#7959](https://github.com/pymedusa/Medusa/issues/7959) - UI bug on schedule calendar view ([#7962](https://github.com/pymedusa/Medusa/pull/7962))
+- Fixed running Scheduler with specific start time ([#7963](https://github.com/pymedusa/Medusa/pull/7963))
+
+-----
+
+## 0.3.14 (2020-03-30)
+
+#### Improvements
+- Search sub-folders for subtitles during post-processing
+
+#### Fixes
+- Fixed a bug that prevented the scheduler to run correctly
+
+-----
+
+## 0.3.13 (2020-03-28)
+
+#### Improvements
+- Improved show loading speed with lazy seasons loading
+- Show specials are now always displayed at the bottom if enabled
+- Added dynamic loading of providers
+- Set scheduler last run after it has run
+- Restricted scripts execution to Python scripts for security reasons (see [External scripts](https://github.com/pymedusa/Medusa/wiki/External-scripts))
+- Added missing status handling in show header
+
+#### Fixes
+- Fixed indexer specific exceptions raising errors in show refresh ([#7837](https://github.com/pymedusa/Medusa/pull/7837))
+- Replaced deprecated error.message syntax ([#7819](https://github.com/pymedusa/Medusa/pull/7819))
+- Fixed saving of web root ([#7841](https://github.com/pymedusa/Medusa/pull/7841))
+- Fixed authentication token returned as bytes ([#7842](https://github.com/pymedusa/Medusa/pull/7842))
+
+-----
+
+## 0.3.12 (2020-02-08)
+
+#### Fixes
+- Fixed guessit parser not using scene exceptions ([#7699](https://github.com/pymedusa/Medusa/pull/7699))
+- Updated YggTorrent provider domain ([#7703](https://github.com/pymedusa/Medusa/pull/7703))
+
+-----
+
+## 0.3.11 (2020-01-31)
+
+#### Improvements
+- Updated Python and JavaScript dependencies
+- Added a few new network icons
+
+#### Fixes
+- Fixed deluged move_torrent() when seed location is specified in the configuration ([#7586](https://github.com/pymedusa/Medusa/pull/7586))
+- Fixed rare parser exception when anime episode doesn't exist ([#7613](https://github.com/pymedusa/Medusa/pull/7613))
+
+-----
+
 ## 0.3.10 (2020-01-13)
 
 #### New Features
-- Add Opensubtitles VIP, aRGENTeaM and Subtitulamos subtitle providers ([#7555](https://github.com/pymedusa/Medusa/pull/7555), [#7518](https://github.com/pymedusa/Medusa/pull/7518))
+- Added Opensubtitles VIP, aRGENTeaM and Subtitulamos subtitle providers ([#7555](https://github.com/pymedusa/Medusa/pull/7555), [#7518](https://github.com/pymedusa/Medusa/pull/7518))
 
 #### Improvements
-- Add `uniqueid` to Kodi 12+ show metadata ([#7483](https://github.com/pymedusa/Medusa/pull/7483))
-- Update AppLink to enable native mouse navigation ([#7498](https://github.com/pymedusa/Medusa/pull/7498))
+- Added `uniqueid` to Kodi 12+ show metadata ([#7483](https://github.com/pymedusa/Medusa/pull/7483))
+- Updated AppLink to enable native mouse navigation ([#7498](https://github.com/pymedusa/Medusa/pull/7498))
 
 #### Fixes
-- Fix Emby notifier error on Python 3 ([#7497](https://github.com/pymedusa/Medusa/pull/7497))
-- Fix more qBittorrent authentication bugs ([#7501](https://github.com/pymedusa/Medusa/pull/7501))
-- Fix `torrents.verifyCert` config patch ignored warning ([#7501](https://github.com/pymedusa/Medusa/pull/7501))
-- Fix dragging and saving Anime / Series list handles in Home - Poster layout ([#7502](https://github.com/pymedusa/Medusa/pull/7502))
-- Fix adding Anime with white/black listed release groups ([#7507](https://github.com/pymedusa/Medusa/pull/7507))
-- Fix Schedule page and Forced Search on Schedule page ([#7512](https://github.com/pymedusa/Medusa/pull/7512))
-- Fix manual search page release name bug ([#7517](https://github.com/pymedusa/Medusa/pull/7517))
-- Fix being unable to save post-processing config ([#7526](https://github.com/pymedusa/Medusa/pull/7526))
-- Fix qBittorrent error when torrent queueing is disabled ([#7541](https://github.com/pymedusa/Medusa/pull/7541))
+- Fixed Emby notifier error on Python 3 ([#7497](https://github.com/pymedusa/Medusa/pull/7497))
+- Fixed more qBittorrent authentication bugs ([#7501](https://github.com/pymedusa/Medusa/pull/7501))
+- Fixed `torrents.verifyCert` config patch ignored warning ([#7501](https://github.com/pymedusa/Medusa/pull/7501))
+- Fixed dragging and saving Anime / Series list handles in Home - Poster layout ([#7502](https://github.com/pymedusa/Medusa/pull/7502))
+- Fixed adding Anime with white/black listed release groups ([#7507](https://github.com/pymedusa/Medusa/pull/7507))
+- Fixed Schedule page and Forced Search on Schedule page ([#7512](https://github.com/pymedusa/Medusa/pull/7512))
+- Fixed manual search page release name bug ([#7517](https://github.com/pymedusa/Medusa/pull/7517))
+- Fixed being unable to save post-processing config ([#7526](https://github.com/pymedusa/Medusa/pull/7526))
+- Fixed qBittorrent error when torrent queueing is disabled ([#7541](https://github.com/pymedusa/Medusa/pull/7541))
 
 -----
 

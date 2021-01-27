@@ -6,23 +6,38 @@ Provides backends for talking to `memcached <http://memcached.org>`_.
 
 """
 
-from ..api import CacheBackend, NO_VALUE
-from ...util import compat
-from ... import util
 import random
+import threading
 import time
+import typing
+from typing import Any
+from typing import Mapping
 
-__all__ = 'GenericMemcachedBackend', 'MemcachedBackend',\
-          'PylibmcBackend', 'BMemcachedBackend', 'MemcachedLock'
+from ..api import CacheBackend
+from ..api import NO_VALUE
+from ... import util
+
+if typing.TYPE_CHECKING:
+    import memcache
+    import pylibmc
+    import bmemcached
+else:
+    # delayed import
+    memcache = None
+    pylibmc = None
+    bmemcached = None
+
+__all__ = (
+    "GenericMemcachedBackend",
+    "MemcachedBackend",
+    "PylibmcBackend",
+    "BMemcachedBackend",
+    "MemcachedLock",
+)
 
 
 class MemcachedLock(object):
-    """Simple distributed lock using memcached.
-
-    This is an adaptation of the lock featured at
-    http://amix.dk/blog/post/19386
-
-    """
+    """Simple distributed lock using memcached."""
 
     def __init__(self, client_fn, key, timeout=0):
         self.client_fn = client_fn
@@ -100,9 +115,16 @@ class GenericMemcachedBackend(CacheBackend):
 
     """
 
-    set_arguments = {}
+    set_arguments: Mapping[str, Any] = {}
     """Additional arguments which will be passed
     to the :meth:`set` method."""
+
+    # No need to override serializer, as all the memcached libraries
+    # handles that themselves. Still, we support customizing the
+    # serializer/deserializer to use better default pickle protocol
+    # or completely different serialization mechanism
+    serializer = None
+    deserializer = None
 
     def __init__(self, arguments):
         self._imports()
@@ -111,11 +133,10 @@ class GenericMemcachedBackend(CacheBackend):
         # so the idea is that this is superior to pylibmc's
         # own ThreadMappedPool which doesn't handle this
         # automatically.
-        self.url = util.to_list(arguments['url'])
-        self.distributed_lock = arguments.get('distributed_lock', False)
-        self.lock_timeout = arguments.get('lock_timeout', 0)
-        self.memcached_expire_time = arguments.get(
-            'memcached_expire_time', 0)
+        self.url = util.to_list(arguments["url"])
+        self.distributed_lock = arguments.get("distributed_lock", False)
+        self.lock_timeout = arguments.get("lock_timeout", 0)
+        self.memcached_expire_time = arguments.get("memcached_expire_time", 0)
 
     def has_lock_timeout(self):
         return self.lock_timeout != 0
@@ -132,7 +153,7 @@ class GenericMemcachedBackend(CacheBackend):
     def _clients(self):
         backend = self
 
-        class ClientPool(compat.threading.local):
+        class ClientPool(threading.local):
             def __init__(self):
                 self.memcached = backend._create_client()
 
@@ -152,8 +173,9 @@ class GenericMemcachedBackend(CacheBackend):
 
     def get_mutex(self, key):
         if self.distributed_lock:
-            return MemcachedLock(lambda: self.client, key,
-                                 timeout=self.lock_timeout)
+            return MemcachedLock(
+                lambda: self.client, key, timeout=self.lock_timeout
+            )
         else:
             return None
 
@@ -166,23 +188,14 @@ class GenericMemcachedBackend(CacheBackend):
 
     def get_multi(self, keys):
         values = self.client.get_multi(keys)
-        return [
-            NO_VALUE if key not in values
-            else values[key] for key in keys
-        ]
+        return [NO_VALUE if key not in values else values[key] for key in keys]
 
     def set(self, key, value):
-        self.client.set(
-            key,
-            value,
-            **self.set_arguments
-        )
+        self.client.set(key, value, **self.set_arguments)
 
     def set_multi(self, mapping):
-        self.client.set_multi(
-            mapping,
-            **self.set_arguments
-        )
+        mapping = {key: value for key, value in mapping.items()}
+        self.client.set_multi(mapping, **self.set_arguments)
 
     def delete(self, key):
         self.client.delete(key)
@@ -191,21 +204,24 @@ class GenericMemcachedBackend(CacheBackend):
         self.client.delete_multi(keys)
 
 
-class MemcacheArgs(object):
+class MemcacheArgs(GenericMemcachedBackend):
     """Mixin which provides support for the 'time' argument to set(),
     'min_compress_len' to other methods.
 
     """
+
     def __init__(self, arguments):
-        self.min_compress_len = arguments.get('min_compress_len', 0)
+        self.min_compress_len = arguments.get("min_compress_len", 0)
 
         self.set_arguments = {}
         if "memcached_expire_time" in arguments:
             self.set_arguments["time"] = arguments["memcached_expire_time"]
         if "min_compress_len" in arguments:
-            self.set_arguments["min_compress_len"] = \
-                arguments["min_compress_len"]
+            self.set_arguments["min_compress_len"] = arguments[
+                "min_compress_len"
+            ]
         super(MemcacheArgs, self).__init__(arguments)
+
 
 pylibmc = None
 
@@ -245,8 +261,8 @@ class PylibmcBackend(MemcacheArgs, GenericMemcachedBackend):
     """
 
     def __init__(self, arguments):
-        self.binary = arguments.get('binary', False)
-        self.behaviors = arguments.get('behaviors', {})
+        self.binary = arguments.get("binary", False)
+        self.behaviors = arguments.get("behaviors", {})
         super(PylibmcBackend, self).__init__(arguments)
 
     def _imports(self):
@@ -255,10 +271,9 @@ class PylibmcBackend(MemcacheArgs, GenericMemcachedBackend):
 
     def _create_client(self):
         return pylibmc.Client(
-            self.url,
-            binary=self.binary,
-            behaviors=self.behaviors
+            self.url, binary=self.binary, behaviors=self.behaviors
         )
+
 
 memcache = None
 
@@ -282,6 +297,7 @@ class MemcachedBackend(MemcacheArgs, GenericMemcachedBackend):
         )
 
     """
+
     def _imports(self):
         global memcache
         import memcache  # noqa
@@ -299,9 +315,21 @@ class BMemcachedBackend(GenericMemcachedBackend):
     python-binary-memcached>`_
     memcached client.
 
-    This is a pure Python memcached client which
-    includes the ability to authenticate with a memcached
-    server using SASL.
+    This is a pure Python memcached client which includes
+    security features like SASL and SSL/TLS.
+
+    SASL is a standard for adding authentication mechanisms
+    to protocols in a way that is protocol independent.
+
+    SSL/TLS is a security layer on end-to-end communication.
+    It provides following benefits:
+
+    * Encryption: Data is encrypted on the wire between
+      Memcached client and server.
+    * Authentication: Optionally, both server and client
+      authenticate each other.
+    * Integrity: Data is not tampered or altered when
+      transmitted between client and server
 
     A typical configuration using username/password::
 
@@ -317,6 +345,25 @@ class BMemcachedBackend(GenericMemcachedBackend):
             }
         )
 
+    A typical configuration using tls_context::
+
+        import ssl
+        from dogpile.cache import make_region
+
+        ctx = ssl.create_default_context(cafile="/path/to/my-ca.pem")
+
+        region = make_region().configure(
+            'dogpile.cache.bmemcached',
+            expiration_time = 3600,
+            arguments = {
+                'url':["127.0.0.1"],
+                'tls_context':ctx,
+            }
+        )
+
+    For advanced ways to configure TLS creating a more complex
+    tls_context visit https://docs.python.org/3/library/ssl.html
+
     Arguments which can be passed to the ``arguments``
     dictionary include:
 
@@ -324,11 +371,17 @@ class BMemcachedBackend(GenericMemcachedBackend):
      SASL authentication.
     :param password: optional password, will be used for
      SASL authentication.
+    :param tls_context: optional TLS context, will be used for
+     TLS connections.
+
+     .. versionadded:: 1.0.2
 
     """
+
     def __init__(self, arguments):
-        self.username = arguments.get('username', None)
-        self.password = arguments.get('password', None)
+        self.username = arguments.get("username", None)
+        self.password = arguments.get("password", None)
+        self.tls_context = arguments.get("tls_context", None)
         super(BMemcachedBackend, self).__init__(arguments)
 
     def _imports(self):
@@ -345,7 +398,8 @@ class BMemcachedBackend(GenericMemcachedBackend):
             def add(self, key, value, timeout=0):
                 try:
                     return super(RepairBMemcachedAPI, self).add(
-                        key, value, timeout)
+                        key, value, timeout
+                    )
                 except ValueError:
                     return False
 
@@ -355,7 +409,8 @@ class BMemcachedBackend(GenericMemcachedBackend):
         return self.Client(
             self.url,
             username=self.username,
-            password=self.password
+            password=self.password,
+            tls_context=self.tls_context,
         )
 
     def delete_multi(self, keys):

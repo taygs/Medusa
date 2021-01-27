@@ -70,7 +70,7 @@ window.app = new Vue({
                 return;
             }
 
-            $('.updating_categories').wrapInner('<span><img src="images/loading16' + MEDUSA.config.themeSpinner + '.gif"> Updating Categories...</span>');
+            $('.updating_categories').wrapInner('<span><img src="images/loading16' + MEDUSA.config.layout.themeSpinner + '.gif"> Updating Categories...</span>');
 
             const dfd = new $.Deferred();
             let capabilities = [];
@@ -165,7 +165,7 @@ window.app = new Vue({
             $('#editANewznabProvider').append('<option value=' + id + '>' + name + '</option>');
 
             if ($('#provider_order_list > #' + id).length === 0) {
-                $('#provider_order_list').append('<li class="ui-state-default" id="' + id + '"> <input type="checkbox" id="enable_' + id + '" class="provider_enabler" CHECKED> <a href="' + MEDUSA.config.anonURL + url + '" class="imgLink" target="_new"><img src="images/providers/newznab.png" alt="' + name + '" width="16" height="16"></a> ' + name + '</li>'); // eslint-disable-line no-undef
+                $('#provider_order_list').append('<li class="ui-state-default" id="' + id + '"> <input type="checkbox" id="enable_' + id + '" class="provider_enabler" CHECKED> <a href="' + MEDUSA.config.general.anonRedirect + url + '" class="imgLink" target="_new"><img src="images/providers/newznab.png" alt="' + name + '" width="16" height="16"></a> ' + name + '</li>'); // eslint-disable-line no-undef
                 $('#provider_order_list').sortable('refresh');
             }
 
@@ -184,7 +184,7 @@ window.app = new Vue({
             $('#editATorrentRssProvider').append('<option value=' + id + '>' + name + '</option>');
 
             if ($('#provider_order_list > #' + id).length === 0) {
-                $('#provider_order_list').append('<li class="ui-state-default" id="' + id + '"> <input type="checkbox" id="enable_' + id + '" class="provider_enabler" CHECKED> <a href="' + MEDUSA.config.anonURL + url + '" class="imgLink" target="_new"><img src="images/providers/torrentrss.png" alt="' + name + '" width="16" height="16"></a> ' + name + '</li>'); // eslint-disable-line no-undef
+                $('#provider_order_list').append('<li class="ui-state-default" id="' + id + '"> <input type="checkbox" id="enable_' + id + '" class="provider_enabler" CHECKED> <a href="' + MEDUSA.config.general.anonRedirect + url + '" class="imgLink" target="_new"><img src="images/providers/torrentrss.png" alt="' + name + '" width="16" height="16"></a> ' + name + '</li>'); // eslint-disable-line no-undef
                 $('#provider_order_list').sortable('refresh');
             }
 
@@ -203,7 +203,7 @@ window.app = new Vue({
             $('#editATorznabProvider').append('<option value=' + id + '>' + name + '</option>');
 
             if ($('#provider_order_list > #' + id).length === 0) {
-                $('#provider_order_list').append('<li class="ui-state-default" id="' + id + '"> <input type="checkbox" id="enable_' + id + '" class="provider_enabler" CHECKED> <a href="' + MEDUSA.config.anonURL + url + '" class="imgLink" target="_new"><img src="images/providers/jackett.png" alt="' + name + '" width="16" height="16"></a> ' + name + '</li>'); // eslint-disable-line no-undef
+                $('#provider_order_list').append('<li class="ui-state-default" id="' + id + '"> <input type="checkbox" id="enable_' + id + '" class="provider_enabler" CHECKED> <a href="' + MEDUSA.config.general.anonRedirect + url + '" class="imgLink" target="_new"><img src="images/providers/jackett.png" alt="' + name + '" width="16" height="16"></a> ' + name + '</li>'); // eslint-disable-line no-undef
                 $('#provider_order_list').sortable('refresh');
             }
 
@@ -509,7 +509,7 @@ window.app = new Vue({
 
         $(document.body).on('change', '.newznab_api_key', event => {
             let providerId = $(event.currentTarget).prop('id');
-            providerId = providerId.substring(0, providerId.length - '_hash'.length);
+            providerId = providerId.slice(0, providerId.length - '_hash'.length);
 
             const url = $('#' + providerId + '_url').val();
             const cat = $('#' + providerId + '_cat').val();
@@ -1641,9 +1641,11 @@ window.app = new Vue({
                             </div>
                             <div id="torrentrss_add_div">
                                 <input type="button" class="btn-medusa torrentrss_save" id="torrentrss_add" value="Add" />
+                                <input type="submit" class="btn-medusa config_submitter_refresh" value="Save Changes" />
                             </div>
                             <div id="torrentrss_update_div" style="display: none;">
                                 <input type="button" class="btn-medusa btn-danger torrentrss_delete" id="torrentrss_delete" value="Delete" />
+                                <input type="submit" class="btn-medusa config_submitter_refresh" value="Save Changes" />
                             </div>
                         </div>
                     </fieldset>
@@ -1711,15 +1713,16 @@ window.app = new Vue({
                             </div>
                             <div id="torznab_add_div">
                                 <input class="btn-medusa" type="button" class="torznab_save" id="torznab_add" value="Add" />
+                                <input type="submit" class="btn-medusa config_submitter_refresh" value="Save Changes" />
                             </div>
                             <div id="torznab_update_div" style="display: none;">
                                 <input class="btn-medusa btn-danger torznab_delete" type="button" class="torznab_delete" id="torznab_delete" value="Delete" />
+                                <input type="submit" class="btn-medusa config_submitter_refresh" value="Save Changes" />
                             </div>
                         </div>
                     </fieldset>
                 </div><!-- /component-group5 //-->
                 % endif
-                <br><input type="submit" class="btn-medusa config_submitter_refresh" value="Save Changes" /><br>
             </div><!-- /config-components //-->
         </form>
     </div>
